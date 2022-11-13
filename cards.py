@@ -1,12 +1,13 @@
 from abc import ABC, abstractmethod
+from utils import CardType
 
 
 class Card(ABC):
 
-    def __init__(self, x, y):
+    def __init__(self, x, y, type):
         self.last_score = None
         self.pos = (x, y)
-        self.type = None
+        self.type = type
 
     @abstractmethod
     def calculate_score(self, board, used_cards):
@@ -18,3 +19,12 @@ class Card(ABC):
 
     def __repr__(self):
         return self.type.name
+
+
+class Rabbit(Card):
+
+    def __init__(self, x, y):
+        super().__init__(x, y, CardType.RABBIT)
+
+    def calculate_score(self, board, used_cards):
+        return 1
