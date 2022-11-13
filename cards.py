@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from utils import CardType, WOLVES
+from utils import CardType, WOLVES, MEADOWS
 from typing import List, Dict
 
 
@@ -43,6 +43,21 @@ class Wolf(Card):
 
             for wolfs, score in WOLVES.items():
                 if wolf_count >= wolfs:
+                    return score
+
+        return 0
+
+
+class Meadow(Card):
+    def __init__(self, x: int, y: int):
+        super().__init__(x, y, CardType.MEADOW)
+
+    def calculate_score(self, board: List[Card], used_cards: Dict[CardType, int]) -> int:
+        if CardType.MEADOW not in used_cards.keys():
+            meadow_count = sum([1 for card in board if card.card_type == CardType.MEADOW])
+
+            for meadows, score in MEADOWS.items():
+                if meadow_count >= meadows:
                     return score
 
         return 0
