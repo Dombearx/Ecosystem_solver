@@ -81,3 +81,23 @@ class Deer(Card):
             return (sum(rows.values()) + sum(columns.values())) * 2
 
         return 0
+
+
+class Bee(Card):
+    def __init__(self, x, y):
+        super().__init__(x, y, CardType.BEE)
+
+    def calculate_score(self, board, used_cards):
+        changes = (-1, 1)
+        score = 0
+        x, y = self.pos
+        for change in changes:
+            for card in board:
+                if card.pos == (x + change, y):
+                    if card.card_type == CardType.MEADOW:
+                        score += 3
+                if card.pos == (x, y + change):
+                    if card.card_type == CardType.MEADOW:
+                        score += 3
+
+        return score
