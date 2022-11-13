@@ -124,3 +124,23 @@ class River(Card):
         for river in rivers:
             pass
         raise NotImplementedError()
+
+
+class Fish(Card):
+    def __init__(self, x: int, y: int):
+        super().__init__(x, y, CardType.FISH)
+
+    def calculate_score(self, board: List[Card], used_cards: Dict[CardType, int]) -> int:
+        changes = (-1, 1)
+        score = 0
+        x, y = self.pos
+        for change in changes:
+            for card in board:
+                if card.pos == (x + change, y):
+                    if card.card_type in (CardType.RIVER, CardType.DRAGONFLY):
+                        score += 2
+                if card.pos == (x, y + change):
+                    if card.card_type in (CardType.RIVER, CardType.DRAGONFLY):
+                        score += 2
+
+        return score
