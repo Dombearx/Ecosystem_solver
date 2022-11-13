@@ -144,3 +144,23 @@ class Fish(Card):
                         score += 2
 
         return score
+
+
+class Bear(Card):
+    def __init__(self, x: int, y: int):
+        super().__init__(x, y, CardType.BEAR)
+
+    def calculate_score(self, board: List[Card], used_cards: Dict[CardType, int]) -> int:
+        changes = (-1, 1)
+        score = 0
+        x, y = self.pos
+        for change in changes:
+            for card in board:
+                if card.pos == (x + change, y):
+                    if card.card_type in (CardType.BEE, CardType.FISH):
+                        score += 2
+                if card.pos == (x, y + change):
+                    if card.card_type in (CardType.BEE, CardType.FISH):
+                        score += 2
+
+        return score
