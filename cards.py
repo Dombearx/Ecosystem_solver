@@ -193,3 +193,19 @@ class Eagle(Card):
                     score += 2
 
         return score
+
+
+class Fox(Card):
+    def __init__(self, x: int, y: int):
+        super().__init__(x, y, CardType.FOX)
+
+    def calculate_score(self, board: List[Card], used_cards: Dict[CardType, int]) -> int:
+        x, y = self.pos
+        for card in board:
+            if card.card_type in (CardType.WOLF, CardType.BEAR):
+                card_x, card_y = card.pos
+                distance = abs(x - card_x) + abs(y - card_y)
+                if distance <= 1:
+                    return 0
+
+        return 3
