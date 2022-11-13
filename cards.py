@@ -164,3 +164,24 @@ class Bear(Card):
                         score += 2
 
         return score
+
+
+class Dragonfly(Card):
+    def __init__(self, x: int, y: int):
+        super().__init__(x, y, CardType.DRAGONFLY)
+
+    def calculate_score(self, board: List[Card], used_cards: Dict[CardType, int]) -> int:
+        changes = (-1, 1)
+        score = 0
+        x, y = self.pos
+        connected_rivers = []
+        for change in changes:
+            for card in board:
+                if card.pos == (x + change, y):
+                    if card.card_type == CardType.RIVER:
+                        connected_rivers.append(card)
+                if card.pos == (x, y + change):
+                    if card.card_type == CardType.RIVER:
+                        connected_rivers.append(card)
+
+        raise NotImplementedError
