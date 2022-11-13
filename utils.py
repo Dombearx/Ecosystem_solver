@@ -13,3 +13,16 @@ class CardType(Enum):
     FISH = "Fish"
     DRAGONFLY = "Dragonfly"
     FOX = "Fox"
+
+BOARD_SIZE = (5, 4)
+
+WOLVES = {3: 12,
+          2: 8,
+          1: 4}
+
+FIELDS = {
+    5: 15,
+    4: 12,
+    3: 9,
+    2: 0
+}
