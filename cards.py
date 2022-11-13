@@ -1,8 +1,9 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from utils import CardType, WOLVES, MEADOWS, BOARD_SIZE
+from utils import CardType, WOLVES, MEADOWS, BOARD_SIZE, RIVERS
 from typing import List, Dict
+from collections import defaultdict
 
 
 class Card(ABC):
@@ -84,10 +85,10 @@ class Deer(Card):
 
 
 class Bee(Card):
-    def __init__(self, x, y):
+    def __init__(self, x: int, y: int):
         super().__init__(x, y, CardType.BEE)
 
-    def calculate_score(self, board, used_cards):
+    def calculate_score(self, board: List[Card], used_cards: Dict[CardType, int]) -> int:
         changes = (-1, 1)
         score = 0
         x, y = self.pos
@@ -101,3 +102,25 @@ class Bee(Card):
                         score += 3
 
         return score
+
+
+class River(Card):
+    def __init__(self, x: int, y: int):
+        super().__init__(x, y, CardType.RIVER)
+
+    def calculate_score(self, board: List[Card], used_cards: Dict[CardType, int]) -> int:
+        if CardType.RIVER not in used_cards.keys():
+            rivers = [card for card in board if card.card_type == CardType.RIVER]
+            longest_river = self.find_longest_river(rivers)
+
+            for rivers, score in RIVERS.items():
+                if longest_river >= rivers:
+                    return score
+
+        return 0
+
+    def find_longest_river(self, rivers: List[Card]) -> int:
+        longest_river = 0
+        for river in rivers:
+            pass
+        raise NotImplementedError()
