@@ -19,15 +19,15 @@ CARDS = (
 
 class Board:
     def __init__(self):
-        self.board = []
+        self.board = {}
         for x in range(BOARD_SIZE[0]):
             for y in range(BOARD_SIZE[1]):
-                self.board.append(random.choice(CARDS)(x, y))
+                self.board[(x, y)] = (random.choice(CARDS)(x, y))
 
     def score(self):
         used_cards = {}
         score = 0
-        for card in self.board:
+        for card in self.board.values():
             score += card.score(self.board, used_cards)
             used_cards[card.card_type] = 1
 
@@ -38,13 +38,14 @@ class Board:
         print(score)
 
     def mutate(self):
-        pos = random.choice(range(len(self.board)))
-        new_card = random.choice(CARDS)(*self.board[pos].pos)
-        self.board[pos] = new_card
+        pos_x = random.choice(range(BOARD_SIZE[0]))
+        pos_y = random.choice(range(BOARD_SIZE[1]))
+        new_card = random.choice(CARDS)(*self.board[(pos_x, pos_y)].pos)
+        self.board[(pos_x, pos_y)] = new_card
 
     def __str__(self):
         result = ""
-        for idx, card in enumerate(self.board):
+        for idx, card in enumerate(self.board.values()):
             tmp = str(card) + " - " + str(card.last_score)
             tmp = tmp.ljust(10)
             result += tmp + " "
