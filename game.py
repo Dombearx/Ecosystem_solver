@@ -1,4 +1,4 @@
-from utils import BOARD_SIZE
+from utils import HOLES
 import random
 from cards import *
 
@@ -7,7 +7,7 @@ CARDS = (
     Fish,
     Fox,
     Bear,
-    Dragonfly,
+    # Dragonfly,
     Bee,
     Eagle,
     Wolf,
@@ -30,6 +30,10 @@ class Board:
         for card in self.board:
             score += card.score(self.board, used_cards)
             used_cards[card.card_type] = 1
+
+        for holes, hole_score in HOLES.items():
+            if len(used_cards.items()) >= holes:
+                score += hole_score
 
         print(score)
 

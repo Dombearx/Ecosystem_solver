@@ -117,10 +117,39 @@ class River(Card):
         return 0
 
     def find_longest_river(self, rivers: List[Card]) -> int:
-        longest_river = 0
+        if len(rivers) == 0:
+            return 0
+        graph = defaultdict(list)
         for river in rivers:
-            pass
-        raise NotImplementedError()
+            for other_river in rivers:
+                card_x, card_y = other_river.pos
+                distance = abs(river.pos[0] - card_x) + abs(river.pos[1] - card_y)
+                if distance == 1:
+                    graph[river].append(other_river)
+                    graph[other_river].append(river)
+
+        all_paths = self.dfs(graph, rivers[0])
+        if len(all_paths) == 0:
+            return 1
+        max_len = max(len(p) for p in all_paths)
+
+        return max_len
+
+    def dfs(self, graph, v, seen=None, path=None):
+        if seen is None:
+            seen = []
+        if path is None:
+            path = [v]
+
+        seen.append(v)
+
+        paths = []
+        for t in graph[v]:
+            if t not in seen:
+                t_path = path + [t]
+                paths.append(tuple(t_path))
+                paths.extend(self.dfs(graph, t, seen[:], t_path))
+        return paths
 
 
 class Fish(Card):
