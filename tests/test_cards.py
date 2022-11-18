@@ -71,3 +71,21 @@ class TestDeer:
 
         assert main_card is not None
         assert main_card.score(board, {}) == score
+
+
+class TestBee:
+    data = [
+        (board_creator([[Bee]]), (0, 0), 0),
+        (board_creator([[Bee, Deer]]), (0, 0), 0),
+        (board_creator([[Bee, Meadow]]), (0, 0), 3),
+        (board_creator([[Bee, Meadow, Bee]]), (0, 0), 3),
+        (board_creator([[Meadow, Bee, Meadow]]), (0, 1), 6),
+        (board_creator([[Bee, Meadow], [Meadow, Bee]]), (0, 0), 6)
+    ]
+
+    @pytest.mark.parametrize("board, pos, score", data)
+    def test_bee_score(self, board, pos, score):
+        main_card = board[pos]
+
+        assert main_card is not None
+        assert main_card.score(board, {}) == score
