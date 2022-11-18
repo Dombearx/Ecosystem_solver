@@ -35,7 +35,7 @@ class Board:
             if len(used_cards.items()) >= holes:
                 score += hole_score
 
-        print(score)
+        return score
 
     def mutate(self):
         pos_x = random.choice(range(BOARD_SIZE[0]))
