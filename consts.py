@@ -1,6 +1,3 @@
-from cards import *
-
-
 BOARD_SIZE = (5, 4)
 
 WOLVES = {3: 12, 2: 8, 1: 4}
