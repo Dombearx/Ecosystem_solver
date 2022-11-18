@@ -1,23 +1,41 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from utils import CardType, WOLVES, MEADOWS, BOARD_SIZE, RIVERS
+from consts import WOLVES, MEADOWS, BOARD_SIZE, RIVERS
 from typing import List, Dict, Tuple
 from collections import defaultdict
+from enum import Enum
+
+
+class CardType(Enum):
+    RABBIT = "Rabbit"
+    WOLF = "Wolf"
+    MEADOW = "meadow"
+    DEER = "Deer"
+    BEE = "Bee"
+    RIVER = "River"
+    EAGLE = "Eagle"
+    BEAR = "Bear"
+    FISH = "Fish"
+    DRAGONFLY = "Dragonfly"
+    FOX = "Fox"
 
 
 class Card(ABC):
-
     def __init__(self, x: int, y: int, card_type: CardType):
         self.last_score = None
         self.pos = (x, y)
         self.card_type = card_type
 
     @abstractmethod
-    def calculate_score(self, board: Dict[Tuple[int, int], Card], used_cards: Dict[CardType, int]) -> int:
+    def calculate_score(
+        self, board: Dict[Tuple[int, int], Card], used_cards: Dict[CardType, int]
+    ) -> int:
         return 0
 
-    def score(self, board: Dict[Tuple[int, int], Card], used_cards: Dict[CardType, int]) -> int:
+    def score(
+        self, board: Dict[Tuple[int, int], Card], used_cards: Dict[CardType, int]
+    ) -> int:
         self.last_score = self.calculate_score(board, used_cards)
         return self.last_score
 
@@ -26,11 +44,12 @@ class Card(ABC):
 
 
 class Rabbit(Card):
-
     def __init__(self, x: int, y: int):
         super().__init__(x, y, CardType.RABBIT)
 
-    def calculate_score(self, board: Dict[Tuple[int, int], Card], used_cards: Dict[CardType, int]) -> int:
+    def calculate_score(
+        self, board: Dict[Tuple[int, int], Card], used_cards: Dict[CardType, int]
+    ) -> int:
         return 1
 
 
@@ -38,9 +57,13 @@ class Wolf(Card):
     def __init__(self, x: int, y: int):
         super().__init__(x, y, CardType.WOLF)
 
-    def calculate_score(self, board: Dict[Tuple[int, int], Card], used_cards: Dict[CardType, int]) -> int:
+    def calculate_score(
+        self, board: Dict[Tuple[int, int], Card], used_cards: Dict[CardType, int]
+    ) -> int:
         if CardType.WOLF not in used_cards.keys():
-            wolf_count = sum([1 for card in board.values() if card.card_type == CardType.WOLF])
+            wolf_count = sum(
+                [1 for card in board.values() if card.card_type == CardType.WOLF]
+            )
 
             for wolfs, score in WOLVES.items():
                 if wolf_count >= wolfs:
@@ -53,9 +76,13 @@ class Meadow(Card):
     def __init__(self, x: int, y: int):
         super().__init__(x, y, CardType.MEADOW)
 
-    def calculate_score(self, board: Dict[Tuple[int, int], Card], used_cards: Dict[CardType, int]) -> int:
+    def calculate_score(
+        self, board: Dict[Tuple[int, int], Card], used_cards: Dict[CardType, int]
+    ) -> int:
         if CardType.MEADOW not in used_cards.keys():
-            meadow_count = sum([1 for card in board.values() if card.card_type == CardType.MEADOW])
+            meadow_count = sum(
+                [1 for card in board.values() if card.card_type == CardType.MEADOW]
+            )
 
             for meadows, score in MEADOWS.items():
                 if meadow_count >= meadows:
@@ -68,7 +95,9 @@ class Deer(Card):
     def __init__(self, x: int, y: int):
         super().__init__(x, y, CardType.DEER)
 
-    def calculate_score(self, board: Dict[Tuple[int, int], Card], used_cards: Dict[CardType, int]) -> int:
+    def calculate_score(
+        self, board: Dict[Tuple[int, int], Card], used_cards: Dict[CardType, int]
+    ) -> int:
         if CardType.DEER not in used_cards.keys():
             deers = [card for card in board.values() if card.card_type == CardType.DEER]
             rows = {}
@@ -88,7 +117,9 @@ class Bee(Card):
     def __init__(self, x: int, y: int):
         super().__init__(x, y, CardType.BEE)
 
-    def calculate_score(self, board: Dict[Tuple[int, int], Card], used_cards: Dict[CardType, int]) -> int:
+    def calculate_score(
+        self, board: Dict[Tuple[int, int], Card], used_cards: Dict[CardType, int]
+    ) -> int:
         score = 0
         x, y = self.pos
         for card in board.values():
@@ -105,9 +136,13 @@ class River(Card):
     def __init__(self, x: int, y: int):
         super().__init__(x, y, CardType.RIVER)
 
-    def calculate_score(self, board: Dict[Tuple[int, int], Card], used_cards: Dict[CardType, int]) -> int:
+    def calculate_score(
+        self, board: Dict[Tuple[int, int], Card], used_cards: Dict[CardType, int]
+    ) -> int:
         if CardType.RIVER not in used_cards.keys():
-            rivers = [card for card in board.values() if card.card_type == CardType.RIVER]
+            rivers = [
+                card for card in board.values() if card.card_type == CardType.RIVER
+            ]
             longest_river = self.find_longest_river(rivers)
 
             for rivers, score in RIVERS.items():
@@ -156,7 +191,9 @@ class Fish(Card):
     def __init__(self, x: int, y: int):
         super().__init__(x, y, CardType.FISH)
 
-    def calculate_score(self, board: Dict[Tuple[int, int], Card], used_cards: Dict[CardType, int]) -> int:
+    def calculate_score(
+        self, board: Dict[Tuple[int, int], Card], used_cards: Dict[CardType, int]
+    ) -> int:
         score = 0
         x, y = self.pos
         for card in board.values():
@@ -173,7 +210,9 @@ class Bear(Card):
     def __init__(self, x: int, y: int):
         super().__init__(x, y, CardType.BEAR)
 
-    def calculate_score(self, board: Dict[Tuple[int, int], Card], used_cards: Dict[CardType, int]) -> int:
+    def calculate_score(
+        self, board: Dict[Tuple[int, int], Card], used_cards: Dict[CardType, int]
+    ) -> int:
         score = 0
         x, y = self.pos
         for card in board.values():
@@ -190,7 +229,9 @@ class Dragonfly(Card):
     def __init__(self, x: int, y: int):
         super().__init__(x, y, CardType.DRAGONFLY)
 
-    def calculate_score(self, board: Dict[Tuple[int, int], Card], used_cards: Dict[CardType, int]) -> int:
+    def calculate_score(
+        self, board: Dict[Tuple[int, int], Card], used_cards: Dict[CardType, int]
+    ) -> int:
         changes = (-1, 1)
         score = 0
         x, y = self.pos
@@ -211,7 +252,9 @@ class Eagle(Card):
     def __init__(self, x: int, y: int):
         super().__init__(x, y, CardType.EAGLE)
 
-    def calculate_score(self, board: Dict[Tuple[int, int], Card], used_cards: Dict[CardType, int]) -> int:
+    def calculate_score(
+        self, board: Dict[Tuple[int, int], Card], used_cards: Dict[CardType, int]
+    ) -> int:
         score = 0
         x, y = self.pos
         for card in board.values():
@@ -228,7 +271,9 @@ class Fox(Card):
     def __init__(self, x: int, y: int):
         super().__init__(x, y, CardType.FOX)
 
-    def calculate_score(self, board: Dict[Tuple[int, int], Card], used_cards: Dict[CardType, int]) -> int:
+    def calculate_score(
+        self, board: Dict[Tuple[int, int], Card], used_cards: Dict[CardType, int]
+    ) -> int:
         x, y = self.pos
         for card in board.values():
             if card.card_type in (CardType.WOLF, CardType.BEAR):

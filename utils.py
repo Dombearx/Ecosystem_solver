@@ -1,40 +1,6 @@
-from enum import Enum
+def board_creator(cards):
+    board = {}
+    for pos, card in cards:
+        board[pos] = card(*pos)
 
-
-class CardType(Enum):
-    RABBIT = "Rabbit"
-    WOLF = "Wolf"
-    MEADOW = "meadow"
-    DEER = "Deer"
-    BEE = "Bee"
-    RIVER = "River"
-    EAGLE = "Eagle"
-    BEAR = "Bear"
-    FISH = "Fish"
-    DRAGONFLY = "Dragonfly"
-    FOX = "Fox"
-
-BOARD_SIZE = (5, 4)
-
-WOLVES = {3: 12,
-          2: 8,
-          1: 4}
-
-RIVERS = {4: 8,
-          2: 5
-          }
-
-MEADOWS = {
-    5: 15,
-    4: 10,
-    3: 6,
-    2: 3
-}
-
-HOLES = {
-    6: -5,
-    5: 0,
-    4: 3,
-    3: 7,
-    2: 12
-}
+    return board

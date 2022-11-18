@@ -11,5 +11,5 @@ def main():
     population = [Board() for _ in range(population_size)]
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

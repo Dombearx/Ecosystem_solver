@@ -1,5 +1,5 @@
-from utils import HOLES
 import random
+from consts import BOARD_SIZE, HOLES
 from cards import *
 
 CARDS = (
@@ -22,7 +22,7 @@ class Board:
         self.board = {}
         for x in range(BOARD_SIZE[0]):
             for y in range(BOARD_SIZE[1]):
-                self.board[(x, y)] = (random.choice(CARDS)(x, y))
+                self.board[(x, y)] = random.choice(CARDS)(x, y)
 
     def score(self):
         used_cards = {}
