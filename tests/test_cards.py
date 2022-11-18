@@ -144,7 +144,19 @@ class TestBear:
     ]
 
     @pytest.mark.parametrize("board, pos, score", data)
-    def test_fish_score(self, board, pos, score):
+    def test_bear_score(self, board, pos, score):
+        main_card = board[pos]
+
+        assert main_card is not None
+        assert main_card.score(board, {}) == score
+
+
+class TestDragonfly:
+    data = [
+    ]
+
+    @pytest.mark.parametrize("board, pos, score", data)
+    def test_dragonfly_score(self, board, pos, score):
         main_card = board[pos]
 
         assert main_card is not None
