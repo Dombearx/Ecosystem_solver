@@ -2,7 +2,7 @@ BOARD_SIZE = (5, 4)
 
 WOLVES = {3: 12, 2: 8, 1: 4}
 
-RIVERS = {4: 8, 2: 5}
+RIVERS = {4: 8, 3: 5}
 
 MEADOWS = {5: 15, 4: 10, 3: 6, 2: 3}
 

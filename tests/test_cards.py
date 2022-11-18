@@ -89,3 +89,23 @@ class TestBee:
 
         assert main_card is not None
         assert main_card.score(board, {}) == score
+
+
+class TestRiver:
+    data = [
+        (board_creator([[River]]), (0, 0), 0),
+        (board_creator([[River, River]]), (0, 0), 0),
+        (board_creator([[River, River, River]]), (0, 0), 5),
+        (board_creator([[River], [River], [River]]), (0, 0), 5),
+        (board_creator([[River, Meadow, River], [River, Meadow, River]]), (0, 0), 0),
+        (board_creator([[River, Meadow, River], [River, River, River]]), (0, 0), 8),
+        (board_creator([[River, Meadow, Meadow], [River, River, River], [River, Meadow, Meadow]]), (0, 0), 8),
+        (board_creator([[River, Meadow, Meadow], [River, River, Meadow], [River, Meadow, Meadow]]), (0, 0), 5),
+    ]
+
+    @pytest.mark.parametrize("board, pos, score", data)
+    def test_river_score(self, board, pos, score):
+        main_card = board[pos]
+
+        assert main_card is not None
+        assert main_card.score(board, {}) == score
