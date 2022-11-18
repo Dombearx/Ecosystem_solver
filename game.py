@@ -45,11 +45,12 @@ class Board:
 
     def __str__(self):
         result = ""
-        for idx, card in enumerate(self.board.values()):
-            tmp = str(card) + " - " + str(card.last_score)
-            tmp = tmp.ljust(10)
-            result += tmp + " "
-            if (idx + 1) % BOARD_SIZE[0] == 0:
-                result += "\n"
+        for row in range(BOARD_SIZE[0]):
+            for column in range(BOARD_SIZE[1]):
+                card = self.board[(row, column)]
+                tmp = str(card).ljust(8) + " - " + str(card.last_score).rjust(2)
+                tmp = tmp.ljust(15)
+                result += tmp + " "
+            result += "\n"
 
         return result
