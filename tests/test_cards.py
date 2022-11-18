@@ -186,3 +186,25 @@ class TestEagle:
 
         assert main_card is not None
         assert main_card.score(board, {}) == score
+
+
+class TestFox:
+    data = [
+        (board_creator([[Fox]]), (0, 0), 3),
+        (board_creator([[Fox, Bear]]), (0, 0), 0),
+        (board_creator([[Fox, Wolf]]), (0, 0), 0),
+        (board_creator([[Fox, Meadow, Wolf]]), (0, 0), 3),
+        (board_creator([[Meadow, Fox, Wolf]]), (0, 1), 0),
+        (board_creator([[Bear, Fox, Meadow]]), (0, 1), 0),
+        (board_creator([[Bear, Fox, Wolf]]), (0, 1), 0),
+        (board_creator([[Fox, Meadow], [Wolf, Meadow]]), (0, 0), 0),
+        (board_creator([[Fox, Meadow], [Bear, Meadow]]), (0, 0), 0),
+        (board_creator([[Fox, Meadow], [Meadow, Bear]]), (0, 0), 3)
+    ]
+
+    @pytest.mark.parametrize("board, pos, score", data)
+    def test_eagle_score(self, board, pos, score):
+        main_card = board[pos]
+
+        assert main_card is not None
+        assert main_card.score(board, {}) == score
