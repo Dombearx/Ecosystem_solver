@@ -109,3 +109,23 @@ class TestRiver:
 
         assert main_card is not None
         assert main_card.score(board, {}) == score
+
+
+class TestFish:
+    data = [
+        (board_creator([[Fish]]), (0, 0), 0),
+        (board_creator([[Fish, River]]), (0, 0), 2),
+        (board_creator([[River, Fish, River]]), (0, 1), 4),
+        (board_creator([[River, Fish, Dragonfly]]), (0, 1), 4),
+        (board_creator([[Dragonfly, Fish, Dragonfly]]), (0, 1), 4),
+        (board_creator([[Dragonfly, Fish, Dragonfly], [Dragonfly, Fish, Dragonfly]]), (0, 1), 4),
+        (board_creator([[Dragonfly, Fish, Dragonfly], [Dragonfly, River, Dragonfly]]), (0, 1), 6),
+        (board_creator([[Meadow, Fish, Meadow], [Meadow, Wolf, Meadow]]), (0, 1), 0)
+    ]
+
+    @pytest.mark.parametrize("board, pos, score", data)
+    def test_fish_score(self, board, pos, score):
+        main_card = board[pos]
+
+        assert main_card is not None
+        assert main_card.score(board, {}) == score
