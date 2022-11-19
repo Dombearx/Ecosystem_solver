@@ -158,12 +158,14 @@ class TestDragonfly:
         (board_creator([[Dragonfly, River, River]]), (0, 0), 2),
         (board_creator([[Dragonfly, River], [Meadow, River]]), (0, 0), 2),
         (board_creator([[River, River], [Dragonfly, River], [Meadow, River]]), (1, 0), 4),
+        (board_creator([[River, River], [River, River], [Meadow, Dragonfly]]), (2, 1), 4),
         (board_creator([[River, Dragonfly, River]]), (0, 1), 2),
         (board_creator([[River, Dragonfly, River], [Meadow, River, River]]), (0, 1), 4),
         (board_creator([[River, Dragonfly, River], [Meadow, River, River]]), (0, 1), 4),
         (board_creator([[River, Dragonfly, Meadow], [River, River, River], [River, Meadow, Meadow]]), (0, 1), 5),
         (board_creator([[River, Dragonfly, Meadow], [River, River, River], [River, Meadow, Meadow]]), (1, 0), 5),
         (board_creator([[Meadow, River, Meadow], [River, River, River], [Meadow, River, Meadow], [Meadow, Dragonfly, Meadow]]), (3, 1), 3),
+        (board_creator([[Meadow, River, Meadow, Meadow], [River, River, River, River], [Meadow, River, Meadow, Meadow], [Meadow, Dragonfly, Meadow, Meadow]]), (3, 1), 4),
     ]
 
     @pytest.mark.parametrize("board, pos, score", data)
