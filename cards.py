@@ -229,11 +229,40 @@ class Dragonfly(Card):
     def __init__(self, x: int, y: int):
         super().__init__(x, y, CardType.DRAGONFLY)
 
+    def find_connected(self, graph, pos_x, pos_y, left_rivers):
+        changes = (-1, 1)
+        for x in changes:
+            if (pos_x + x, pos_y) in left_rivers.keys():
+                graph[(pos_x, pos_y)].append((pos_x + x, pos_y))
+                del left_rivers[(pos_x + x, pos_y)]
+
+        for y in changes:
+            if (pos_x, pos_y + y) in left_rivers.keys():
+                graph[(pos_x, pos_y)].append((pos_x, pos_y + y))
+                del left_rivers[(pos_x, pos_y + y)]
+
     def calculate_score(
         self, board: Dict[Tuple[int, int], Card], used_cards: Dict[CardType, int]
     ) -> int:
-        changes = (-1, 1)
         score = 0
+        rivers = [
+            card for card in board.values() if card.card_type == CardType.RIVER
+        ]
+
+        ends = []
+
+
+        graph = defaultdict(list)
+        for river in rivers:
+
+            for other_river in rivers:
+                card_x, card_y = other_river.pos
+                distance = abs(river.pos[0] - card_x) + abs(river.pos[1] - card_y)
+                if distance == 1:
+                    graph[river].append(other_river)
+                    graph[other_river].append(river)
+
+
         x, y = self.pos
         connected_rivers = []
         for change in changes:
@@ -245,7 +274,7 @@ class Dragonfly(Card):
                     if card.card_type == CardType.RIVER:
                         connected_rivers.append(card)
 
-        raise NotImplementedError
+        return score
 
 
 class Eagle(Card):
