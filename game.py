@@ -1,3 +1,6 @@
+from __future__ import annotations
+
+import copy
 import random
 from consts import BOARD_SIZE, HOLES
 from cards import *
@@ -35,13 +38,27 @@ class Board:
             if len(used_cards.items()) >= holes:
                 score += hole_score
 
-        return score
+        return score,
 
     def mutate(self):
         pos_x = random.choice(range(BOARD_SIZE[0]))
         pos_y = random.choice(range(BOARD_SIZE[1]))
         new_card = random.choice(CARDS)(*self.board[(pos_x, pos_y)].pos)
         self.board[(pos_x, pos_y)] = new_card
+
+    def crossover(self, other: Board) -> Board:
+        pos_x = random.choice(range(BOARD_SIZE[0]))
+        pos_y = random.choice(range(BOARD_SIZE[1]))
+
+        for x in range(pos_x):
+            for y in range(pos_y):
+                other.board[(x, y)] = copy.deepcopy(self.board[(x, y)])
+
+        for x in range(pos_x, BOARD_SIZE[0]):
+            for y in range(pos_y, BOARD_SIZE[1]):
+                self.board[(x, y)] = copy.deepcopy(other.board[(x, y)])
+
+        return other
 
     def __str__(self):
         result = ""
