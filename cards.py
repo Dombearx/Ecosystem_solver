@@ -243,17 +243,36 @@ class Dragonfly(Card):
                 del left_rivers[(pos_x, pos_y + y)]
                 self.find_connected(graph, pos_x, pos_y + y, left_rivers)
 
+    def calculate_old_score(self, rivers):
+        score = 0
+        graph = defaultdict(list)
+        self.find_connected(graph, self.pos[0], self.pos[1], rivers)
+        for node in graph.values():
+            score += len(node)
+
+        return score
+
     def calculate_score(
         self, board: Dict[Tuple[int, int], Card], used_cards: Dict[CardType, int]
     ) -> int:
-        score = 0
         rivers = {
             key: card for key, card in board.items() if card.card_type == CardType.RIVER
         }
+        if len(rivers) == 0:
+            return 0
+        score = self.calculate_old_score(rivers)
+        # score = 0
+        # rivers[self.pos] = self
+        # graph = defaultdict(list)
+        # for river in rivers.values():
+        #     for other_river in rivers.values():
+        #         card_x, card_y = other_river.pos
+        #         distance = abs(river.pos[0] - card_x) + abs(river.pos[1] - card_y)
+        #         if distance == 1:
+        #             graph[river].append(other_river)
+        #             graph[other_river].append(river)
 
-        ends = []
-        graph = defaultdict(list)
-        self.find_connected(graph, self.pos[0], self.pos[1], rivers)
+
 
         return score
 

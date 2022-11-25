@@ -158,7 +158,7 @@ class TestDragonfly:
         (board_creator([[Dragonfly, River, River]]), (0, 0), 2),
         (board_creator([[Dragonfly, River], [Meadow, River]]), (0, 0), 2),
         (board_creator([[River, River], [Dragonfly, River], [Meadow, River]]), (1, 0), 4),
-        (board_creator([[River, Meadow], [River, River], [Dragonfly, River]]), (1, 0), 4),
+        (board_creator([[River, Meadow], [River, River], [Dragonfly, River]]), (2, 0), 4),
         (board_creator([[River, River], [River, River], [Meadow, Dragonfly]]), (2, 1), 4),
         (board_creator([[River, Dragonfly, River]]), (0, 1), 2),
         (board_creator([[River, Dragonfly, River], [Meadow, River, River]]), (0, 1), 4),
